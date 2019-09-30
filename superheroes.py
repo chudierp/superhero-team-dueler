@@ -24,6 +24,8 @@ class Hero:
         self.current_health = starting_health 
         self.abilities = []
         self.armors = []
+        self.deaths = 0
+        self.kills = 0
 
     def add_ability(self, ability):
         self.abilities.append(ability)
@@ -72,12 +74,21 @@ class Hero:
             opponent.take_damage(self.attack())
             self.take_damage(opponent.attack())
 
-            if opponent.current_health < self.attack():
-               opponent.is_alive() == False
-               print(self.name + " won! ")
-            elif self.current_health < opponent.attack():
-                self.is_alive() == False
-                print(opponent.name + " won! ")   
+        if opponent.current_health <= 0:
+            opponent.is_alive() == False
+            self.add_kill(1)
+            opponent.add_deaths(1)
+            print(self.name + " won! ")
+        else:
+            self.add_deaths(1)
+            opponent.add_kill(1)
+            print(opponent.name + " won! ")  
+
+    def add_kill(self, num_kills):
+         self.kills += num_kills
+
+    def add_deaths(self, num_deaths):
+        self.deaths += num_deaths
 
 class Weapon(Ability):
     def attack(self):
@@ -101,6 +112,26 @@ class Team(Hero):
     def view_all_heroes(self):
         for hero in self.heroes:
             print(hero.name)
+
+    def attack(self, other_team):
+        hero = random.choice(self.heroes)
+        opponent = random.choice(other_team.heroes)
+        hero.fight(opponent)
+
+    def revive_heroes(self, health=100):
+        # Hero.health = health
+        for hero in self.heroes:
+            hero.health = health
+
+    def stats(self):
+        print("Here are the team stats: \n")
+        for hero in self.heroes:
+            print(hero.name, hero.hills, hero.deaths, hero.abilities, hero.armor)
+
+
+
+
+
 
 
 
