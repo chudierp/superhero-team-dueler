@@ -30,10 +30,14 @@ class Hero:
 
     def attack(self):
         total_attack = 0
-        for ability in self.abilities:
-            attack = ability.attack()
-            total_attack += attack
-            return total_attack
+        if len(self.abilities) > 0:
+            for ability in self.abilities:
+                attack = ability.attack()
+                total_attack += attack
+                return total_attack
+        else:
+            return 0
+        
 
     def add_armor(self, armor):
         # self.armors = armor 
@@ -75,16 +79,33 @@ class Hero:
                 self.is_alive() == False
                 print(opponent.name + " won! ")   
 
-        # if len(self.abilities) == 0:
-        #     print("Draw")  
-                
-        # # while opponent.current_health > 0:
-        #     while opponent.take_damage(self.attack):
-        #         if opponent.current_health < self.attack:
-        #             return self.current_health > 0
-        #                 print(self.name + " won! ") 
-                    
-        #         # if 
+class Weapon(Ability):
+    def attack(self):
+        return random.randint(self.attack_strength//2, self.attack_strength)
+
+class Team(Hero): 
+    def __init__(self, name):
+        self.name = name
+        self.heroes = []
+
+    def add_hero(self, hero):
+        self.heroes.append(hero)
+
+    def remove_hero(self, name):
+        for hero in self.heroes:
+            if hero.name == name:
+                self.heroes.remove(hero)
+        else:
+            return 0    
+
+    def view_all_heroes(self):
+        for hero in self.heroes:
+            print(hero.name)
+
+
+
+
+
                      
 
   
