@@ -39,7 +39,9 @@ class Hero:
                 return total_attack
         else:
             return 0
-        
+
+    def add_weapon(self, weapon):
+        self.abilities.append(weapon)
 
     def add_armor(self, armor):
         # self.armors = armor 
@@ -126,56 +128,120 @@ class Team(Hero):
     def stats(self):
         print("Here are the team stats: \n")
         for hero in self.heroes:
-            print(hero.name, hero.hills, hero.deaths, hero.abilities, hero.armor)
+            print("Name: " + hero.name, "Kills: " + str(hero.kills),"Deaths: " + str(hero.deaths))
+            for ability in hero.abilities:
+                print(ability.name)
+            for armor in hero.armors:
+                print(armor.name)    
+
+class Arena:
+    def __init__(self):
+        self.team_one = None
+        self.team_two = None
+
+    def create_ability(self):
+        name = input("Enter a new ability: ")
+        attack_strength = input("Enter ability strength: ")
+        ability = Ability(name, int(attack_strength))
+        return ability
+
+    def create_weapon(self):
+        name = input("Enter a new weapon: ")
+        attack_strength = input("Enter attack strength: ")
+        weapon = Weapon(name, int(attack_strength))
+        return weapon
+
+    def create_armor(self):
+        name = input("Enter a new armor: ")
+        max_block = input("Enter maximum block strength: ") 
+        armor = Armor(name, int(max_block))  
+        return armor 
+
+    def create_hero(self): #have someone look over this
+        Hero.name = input("Let's create a hero. Enter a name to call your hero: ")
+        hero = Hero(Hero.name, starting_health = 100)
+        print(f"Would you like to add armor, abilities, or weapons to your hero {hero.name}?: ")
+        user_input = input("Enter 'A' for armor, 'W' for weapons, or 'B' for abilities: ")
+        user_input = user_input.upper()
+        if user_input == 'A':
+            armor = self.create_armor()
+            hero.add_armor(armor)
+        elif user_input == 'W':
+            weapon = self.create_weapon()
+            hero.add_weapon(weapon)
+        elif user_input == 'B':
+            ability = self.create_ability()
+            hero.add_ability(ability)
+        else:
+            print ("Invalid response")
+        return hero 
+
+    def build_team_one(self):
+        name = input("Create a name for team one: ")
+        self.team_one = Team(name)
+        team_one_size = int(input("How many heroes do you want on your first team?: "))
+        for hero in range(team_one_size):
+            self.team_one.heroes.append(self.create_hero())
+
+    def build_team_two(self):
+        name = input("Create a name for team two: ")
+        self.team_two = Team(name)
+        team_two_size = int(input("How many heroes do you want on your second team?: "))        
+        for hero in range(team_two_size):
+           self.team_two.heroes.append(self.create_hero())
+
+    def team_battle(self):
+        self.team_one.attack(self.team_two)
+
+    def show_stats(self):
+        print('\n')
+        print("-------------\n")
+
+        self.team_one.stats()
+        self.team_two.stats()
 
 
+        # winning_team = self.team_one.attack(self.team_two)
+        # print("The winning team is team {}! Congratulations!".format(winning_team))
 
+        
 
-
-
-
-
-
-
-                     
-
-  
 
 if __name__ == "__main__":
-    # ability = Ability("Debugging Ability", 20)
-    # print(ability.name)
-    # print(ability.attack())
-    # my_hero = Hero("Grace Hopper", 200)
-    # print(my_hero.name)
-    # print(my_hero.current_health)
-    # ability = Ability("Great Debugging", 50)
-    # another_ability = Ability("Smarty Pants", 90)
-    # hero = Hero("Grace Hopper", 200)
-    # hero.take_damage(150)
-    # print(hero.is_alive())
-    # hero.take_damage(15000)
-    # print(hero.is_alive())
-    # shield = Armor("Shield", 50)
-    # hero.add_armor(shield)
-    # hero.take_damage(50)
-    # print(hero.current_health)
-    # hero.add_ability(ability)
-    # hero.add_ability(another_ability)
-    # print(hero.attack())
-    # print(hero.abilities)
-    hero1 = Hero("Wonder Woman")
-    hero2 = Hero("Dumbledore")
-    ability1 = Ability("Super Speed", 300)
-    ability2 = Ability("Super Eyes", 130)
-    ability3 = Ability("Wizard Wand", 80)
-    ability4 = Ability("Wizard Beard", 20)
-    hero1.add_ability(ability1)
-    hero1.add_ability(ability2)
-    hero2.add_ability(ability3)
-    hero2.add_ability(ability4)
-    hero1.fight(hero2)
-
-
-
-    
-    
+    arena = Arena()
+    arena.build_team_one()
+    arena.build_team_two()
+    arena.team_battle()
+    arena.show_stats() 
+# # ability = Ability("Debugging Ability", 20)
+#     # print(ability.name)
+#     # print(ability.attack())
+#     # my_hero = Hero("Grace Hopper", 200)
+#     # print(my_hero.name)
+#     # print(my_hero.current_health)
+#     # ability = Ability("Great Debugging", 50)
+#     # another_ability = Ability("Smarty Pants", 90)
+#     # hero = Hero("Grace Hopper", 200)
+#     # hero.take_damage(150)
+#     # print(hero.is_alive())
+#     # hero.take_damage(15000)
+#     # print(hero.is_alive())
+#     # shield = Armor("Shield", 50)
+#     # hero.add_armor(shield)
+#     # hero.take_damage(50)
+#     # print(hero.current_health)
+#     # hero.add_ability(ability)
+#     # hero.add_ability(another_ability)
+#     # print(hero.attack())
+#     # print(hero.abilities)
+#     # hero1 = Hero("Wonder Woman")
+#     # hero2 = Hero("Dumbledore")
+#     # ability1 = Ability("Super Speed", 300)
+#     # ability2 = Ability("Super Eyes", 130)
+#     # ability3 = Ability("Wizard Wand", 80)
+#     # ability4 = Ability("Wizard Beard", 20)
+#     # hero1.add_ability(ability1)
+#     # hero1.add_ability(ability2)
+#     # hero2.add_ability(ability3)
+#     # hero2.add_ability(ability4)
+#     # hero1.fight(hero2) 
