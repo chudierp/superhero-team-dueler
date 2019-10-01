@@ -208,40 +208,26 @@ class Arena:
 
 
 if __name__ == "__main__":
+    game_is_running = True
+
+    # Instantiate Game Arena
     arena = Arena()
+
+    #Build Teams
     arena.build_team_one()
     arena.build_team_two()
-    arena.team_battle()
-    arena.show_stats() 
-# # ability = Ability("Debugging Ability", 20)
-#     # print(ability.name)
-#     # print(ability.attack())
-#     # my_hero = Hero("Grace Hopper", 200)
-#     # print(my_hero.name)
-#     # print(my_hero.current_health)
-#     # ability = Ability("Great Debugging", 50)
-#     # another_ability = Ability("Smarty Pants", 90)
-#     # hero = Hero("Grace Hopper", 200)
-#     # hero.take_damage(150)
-#     # print(hero.is_alive())
-#     # hero.take_damage(15000)
-#     # print(hero.is_alive())
-#     # shield = Armor("Shield", 50)
-#     # hero.add_armor(shield)
-#     # hero.take_damage(50)
-#     # print(hero.current_health)
-#     # hero.add_ability(ability)
-#     # hero.add_ability(another_ability)
-#     # print(hero.attack())
-#     # print(hero.abilities)
-#     # hero1 = Hero("Wonder Woman")
-#     # hero2 = Hero("Dumbledore")
-#     # ability1 = Ability("Super Speed", 300)
-#     # ability2 = Ability("Super Eyes", 130)
-#     # ability3 = Ability("Wizard Wand", 80)
-#     # ability4 = Ability("Wizard Beard", 20)
-#     # hero1.add_ability(ability1)
-#     # hero1.add_ability(ability2)
-#     # hero2.add_ability(ability3)
-#     # hero2.add_ability(ability4)
-#     # hero1.fight(hero2) 
+
+    while game_is_running:
+
+        arena.team_battle()
+        arena.show_stats()
+        play_again = input("Play Again? Y or N: ")
+
+        #Check for Player Input
+        if play_again.lower() == "n":
+            game_is_running = False
+
+        else:
+            #Revive heroes to play again
+            arena.team_one.revive_heroes()
+            arena.team_two.revive_heroes()
